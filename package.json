@@ -2,8 +2,7 @@
   "name": "@kettlespace-eng/expo-keycloak",
   "version": "1.0.34-rc1",
   "description": "Keycloak authentication for react-native apps using Expo.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc --project .",
     "test": "echo \"Error: no test specified\" && exit 1",
