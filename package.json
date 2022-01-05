@@ -5,13 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc --project .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "xxxprepublish": "npm-auto-version",
-    "xxxpostpublish": "git push origin --tags"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kettlespace-eng/expo-keycloak.git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "auth",
@@ -25,18 +19,19 @@
   "author": "devcauldron <jeff@kettlespace.com>",
   "license": "MIT",
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^1.13.2",
-    "@types/react-native": "^0.63.40",
-    "expo": "^40.0.0",
-    "expo-auth-session": "^2.0.0",
-    "expo-random": "^9.0.0",
-    "npm-auto-version": "^1.0.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@types/react-native": "~0.64.12",
+    "expo": "^44.0.0",
+    "expo-auth-session": "~3.5.0",
+    "expo-random": "~12.1.1",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
-    "react": "^16.13.1",
-    "typescript": "^4.2.2"
+    "react": "17.0.1",
+    "typescript": "~4.3.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-native": "0.64.3"
+  },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
     "expo": "^39.0.0",
