@@ -92,8 +92,12 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
       ) {
         await updateState(_tokens);
       }
-      if (!discovery)
-        return;
+      if (!discovery) {
+        discovery = await AuthSession.fetchDiscoveryAsync(getRealmURL(props));
+        if(!discovery) {
+          return;
+        }
+      }
       const _response = await AuthSession.refreshAsync(
         { refreshToken: _tokens.refreshToken, ...config },
         discovery!,
