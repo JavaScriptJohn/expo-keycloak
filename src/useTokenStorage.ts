@@ -4,7 +4,7 @@ import { TokenType, initialStorage } from './storage/tokenStorage'
 
 const useTokenStorage = () => {
   const [state, setState] = useState({
-    hydrated: false,
+    hydrated: true,
     tokens: initialStorage,
   })
 
