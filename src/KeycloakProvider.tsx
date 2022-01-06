@@ -40,7 +40,7 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
     setTokens,
   } = useTokenStorage();
 
-  const discovery = AuthSession.useAutoDiscovery(getRealmURL(props));
+  let discovery = AuthSession.useAutoDiscovery(getRealmURL(props));
   const redirectUri = AuthSession.makeRedirectUri({
     native: `${props.scheme ?? 'exp'}://${
       props.nativeRedirectPath ?? NATIVE_REDIRECT_PATH
