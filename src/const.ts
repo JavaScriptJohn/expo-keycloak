@@ -3,6 +3,7 @@ export const KC_INITIAL_VALUE = {
   isLoggedIn: false,
   login: () => console.error('KC Not Initialized.'),
   logout: () => console.error('Not Logged In.'),
+  refresh: () => console.error('Not Logged In.'),
   tokens: null,
 } as any
 export const NATIVE_REDIRECT_PATH = 'auth/redirect'

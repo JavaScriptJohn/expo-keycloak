@@ -205,6 +205,7 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
         isLoggedIn: session.exists,
         login: handleLogin,
         logout: handleLogout,
+        refresh: handleTokenRefresh,
         ready: request !== null && session.loading === false,
         tokens,
         loadUserInfo,
