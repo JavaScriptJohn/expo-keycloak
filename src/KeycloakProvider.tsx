@@ -98,11 +98,16 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
           return;
         }
       }
-      const _response = await AuthSession.refreshAsync(
-        { refreshToken: _tokens.refreshToken, ...config },
-        discovery!,
-      );
-      await updateState(_response as TokenType);
+      try {
+        const _response = await AuthSession.refreshAsync(
+            {refreshToken: _tokens.refreshToken, ...config},
+            discovery!,
+        );
+        await updateState(_response as TokenType);
+      } catch( refreshError) {
+        //Can't refresh because the session is gone in keycloak
+        handleLogin();
+      }
     } catch (error) {
       console.log(error);
     }
