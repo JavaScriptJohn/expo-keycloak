@@ -106,7 +106,7 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
         await updateState(_response as TokenType);
       } catch( refreshError) {
         //Can't refresh because the session is gone in keycloak
-        handleLogin();
+        handleLogout();
       }
     } catch (error) {
       console.log(error);
