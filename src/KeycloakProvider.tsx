@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-// import * as WebBrowser from 'expo-web-browser';
+import * as WebBrowser from 'expo-web-browser';
 
 import { AuthRequestConfig } from 'expo-auth-session/src/AuthRequest.types';
 
@@ -134,10 +134,10 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
 
       const redirectUrl = AuthSession.makeRedirectUri({ useProxy: false });
 
-      // await WebBrowser.openAuthSessionAsync(
-      //   `${discovery?.endSessionEndpoint}?redirect_uri=${redirectUrl}`,
-      //   redirectUrl,
-      // );
+      await WebBrowser.openAuthSessionAsync(
+        `${discovery?.endSessionEndpoint}?redirect_uri=${redirectUrl}&id_token_hint=${_tokens.idToken}`,
+        redirectUrl,
+      );
 
       await removeTokens();
       setSession((prev) => ({ ...prev, exists: false }));

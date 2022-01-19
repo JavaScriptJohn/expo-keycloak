@@ -9,6 +9,7 @@ export type TokenType = {
   refreshToken: string
   scope: string
   tokenType: string
+  idToken: string
 }
 
 export const initialStorage: TokenType = {
@@ -18,6 +19,7 @@ export const initialStorage: TokenType = {
   refreshToken: '',
   scope: '',
   tokenType: '',
+  idToken: '',
 }
 
 class TokenStorage extends BaseStorage<TokenType> {
