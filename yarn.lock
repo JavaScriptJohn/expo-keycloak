@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@JavaScriptJohn/expo-keycloak@https://github.com/JavaScriptJohn/expo-keycloak":
+  version "2.0.17"
+  resolved "https://github.com/JavaScriptJohn/expo-keycloak#e4fc6c7fd4eb3a469b51c63a5f76ab1fbbb5c195"
+
 "@babel/code-frame@^7.16.7":
   version "7.16.7"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.16.7.tgz"
