@@ -1,5 +1,3 @@
-[![npm](https://img.shields.io/npm/v/expo-keycloak.svg?maxAge=2592000)](https://www.npmjs.com/package/expo-keycloak)
-
 # Keycloak for Expo
 
 > Keycloak authentication for react-native apps using Expo.
