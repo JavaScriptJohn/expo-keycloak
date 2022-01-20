@@ -1,6 +1,6 @@
 {
   "name": "@JavaScriptJohn/expo-keycloak",
-  "version": "2.0.21",
+  "version": "2.0.22",
   "description": "Keycloak authentication for react-native apps using Expo.",
   "main": "src/index.ts",
   "scripts": {
