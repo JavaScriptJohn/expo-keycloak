@@ -24,10 +24,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45582412-be66-4373-865f-31381cc9b887" name="Default Changelist" comment="Fix logout of sessions in newer versions of keycloak.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    <list default="true" id="45582412-be66-4373-865f-31381cc9b887" name="Default Changelist" comment="Readme update">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +120,21 @@
       <option name="project" value="LOCAL" />
       <updated>1642678987324</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Hiding logout web browser, added my own info to package.json">
+      <created>1642679359022</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1642679359022</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Readme update">
+      <created>1642679432511</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1642679432511</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +157,8 @@
     <MESSAGE value="Allow refreshing manually" />
     <MESSAGE value="Handle refresh when keycloak token is gone." />
     <MESSAGE value="Fix logout of sessions in newer versions of keycloak." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix logout of sessions in newer versions of keycloak." />
+    <MESSAGE value="Hiding logout web browser, added my own info to package.json" />
+    <MESSAGE value="Readme update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Readme update" />
   </component>
 </project>
