@@ -3,8 +3,10 @@
 
 
 "@JavaScriptJohn/expo-keycloak@https://github.com/JavaScriptJohn/expo-keycloak":
-  version "2.0.17"
-  resolved "https://github.com/JavaScriptJohn/expo-keycloak#e4fc6c7fd4eb3a469b51c63a5f76ab1fbbb5c195"
+  version "2.0.19"
+  resolved "https://github.com/JavaScriptJohn/expo-keycloak#817fc7c27c83ffe0948e7aa6f17b92690abeabae"
+  dependencies:
+    "@JavaScriptJohn/expo-keycloak" "https://github.com/JavaScriptJohn/expo-keycloak"
 
 "@babel/code-frame@^7.16.7":
   version "7.16.7"
