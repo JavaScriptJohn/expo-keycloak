@@ -132,12 +132,14 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
         { revocationEndpoint: discovery?.revocationEndpoint },
       );
 
-      const redirectUrl = AuthSession.makeRedirectUri({ useProxy: false });
-
-      await WebBrowser.openAuthSessionAsync(
-        `${discovery?.endSessionEndpoint}?redirect_uri=${redirectUrl}&id_token_hint=${_tokens.idToken}`,
-        redirectUrl,
-      );
+      // const redirectUrl = AuthSession.makeRedirectUri({ useProxy: false });
+      //
+      // await WebBrowser.openAuthSessionAsync(
+      //   `${discovery?.endSessionEndpoint}?redirect_uri=${redirectUrl}&id_token_hint=${_tokens.idToken}`,
+      //   redirectUrl,
+      // );
+      //Tell keycloak to log out our session without opening a browser
+      await fetch(`${discovery?.endSessionEndpoint}?id_token_hint=${_tokens.idToken}`);
 
       await removeTokens();
       setSession((prev) => ({ ...prev, exists: false }));
