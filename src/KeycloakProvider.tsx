@@ -94,17 +94,17 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
       }
       if (!discovery) {
         discovery = await AuthSession.fetchDiscoveryAsync(getRealmURL(props));
-        if(!discovery) {
+        if (!discovery) {
           return;
         }
       }
       try {
         const _response = await AuthSession.refreshAsync(
-            {refreshToken: _tokens.refreshToken, ...config},
-            discovery!,
+          { refreshToken: _tokens.refreshToken, ...config },
+          discovery!,
         );
         await updateState(_response as TokenType);
-      } catch( refreshError) {
+      } catch (refreshError) {
         //Can't refresh because the session is gone in keycloak
         handleLogout();
       }
@@ -139,7 +139,11 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
       //   redirectUrl,
       // );
       //Tell keycloak to log out our session without opening a browser
-      await fetch(`${discovery?.endSessionEndpoint}?id_token_hint=${_tokens.idToken}`);
+      if (_tokens.idToken) {
+        await fetch(
+          `${discovery?.endSessionEndpoint}?id_token_hint=${_tokens.idToken}`,
+        );
+      }
 
       await removeTokens();
       setSession((prev) => ({ ...prev, exists: false }));
