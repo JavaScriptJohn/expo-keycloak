@@ -26,7 +26,7 @@ expo install expo-random expo-auth-session
 #### 3. Other peer deps and the star of the evening `expo-keycloak` itself
 
 ```
-yarn add @react-native-async-storage/async-storage expo-keycloak
+yarn add @react-native-async-storage/async-storage expo-keycloak@https://github.com/PlinioMayer/expo-keycloak.git
 ```
 
 ## Usage
@@ -34,14 +34,14 @@ yarn add @react-native-async-storage/async-storage expo-keycloak
 ```typescript jsx
 // App.tsx
 import {
-  IKeycloakConfiguration,
+  KeycloakConfiguration,
   KeycloakProvider,
   useKeycloak,
 } from 'expo-keycloak';
 import AppConfig from './app.json'; // This is Expo's app json where your scheme should be defined
 
 export default () => {
-  const keycloakConfiguration: IKeycloakConfiguration = {
+  const keycloakConfiguration: KeycloakConfiguration = {
     clientId: 'AGENT_007',
     realm: 'REALM_OF_HER_MAJESTY',
     url: 'http://WHERE_THE_KC_RESIDES', // This is usually an url ending with /auth
