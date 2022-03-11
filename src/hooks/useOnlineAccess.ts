@@ -1,4 +1,4 @@
-import { KeycloakConfiguration, KeycloakInfo } from '../types';
+import { KeycloakConfiguration, KeycloakContextValue } from '../types';
 import {Platform} from 'react-native';
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useTokenStorage} from './useTokenStorage';
@@ -13,7 +13,7 @@ export const useOnlineAccess = ({
     usePKCE = false,
     scopes = ['openid'],
     ...props 
-}: KeycloakConfiguration): KeycloakInfo => {
+}: KeycloakConfiguration): KeycloakContextValue => {
     const useProxy = Platform.select({ web: false, native: !props.scheme });
     const refreshHandle = useRef(0);
 

@@ -1,8 +1,8 @@
 import {AuthSessionResult} from "expo-auth-session/src/AuthSession.types";
 import {TokenType} from "expo-auth-session";
-import { KeycloakInfo } from './types';
+import { KeycloakContextValue } from './types';
 
-export const KC_INITIAL_VALUE: KeycloakInfo = {
+export const KC_INITIAL_VALUE: KeycloakContextValue = {
   ready: false,
   isLoggedIn: false,
   login: () => console.error('KC Not Initialized.'),
