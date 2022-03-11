@@ -1,7 +1,6 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
 
 import { AuthRequestConfig } from 'expo-auth-session/src/AuthRequest.types';
 
@@ -132,17 +131,21 @@ export const KeycloakProvider: FC<IKeycloakConfiguration> = ({
         { revocationEndpoint: discovery?.revocationEndpoint },
       );
 
-      // const redirectUrl = AuthSession.makeRedirectUri({ useProxy: false });
-      //
-      // await WebBrowser.openAuthSessionAsync(
-      //   `${discovery?.endSessionEndpoint}?redirect_uri=${redirectUrl}&id_token_hint=${_tokens.idToken}`,
-      //   redirectUrl,
-      // );
-      //Tell keycloak to log out our session without opening a browser
-      if (_tokens.idToken) {
+      if (_tokens.refreshToken) {
+        const body = `${encodeURIComponent('client_id')}=${encodeURIComponent(props.clientId)}&` +
+            `${encodeURIComponent('refresh_token')}=${encodeURIComponent(_tokens.refreshToken)}`;
+
         await fetch(
-          `${discovery?.endSessionEndpoint}?id_token_hint=${_tokens.idToken}`,
+            `${discovery?.endSessionEndpoint}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body,
+            }
         );
+
       }
 
       await removeTokens();

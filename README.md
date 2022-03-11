@@ -6,6 +6,9 @@ This package enables you to login against a keycloak instance from your Expo app
 
 This package also automatically handles refreshing of the token. (You can disable this behavior in `KeycloakProvider` props)
 
+## (known) Supported Keycloak versions:
+- 16.1.1
+
 ## Install
 
 #### 1. Expo & React peer deps
