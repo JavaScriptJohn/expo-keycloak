@@ -1,7 +1,8 @@
 import { useCallback, useContext, useMemo } from 'react';
-import { KeycloakContext } from './KeycloakContext';
+import { KeycloakContext } from '../KeycloakContext';
 
-import jwt_decode from './utils/jwt-decode';
+import jwt_decode from '../utils/jwt-decode';
+import {KeycloakInfo} from "../types";
 
 export const useKeycloak = () => {
   const {
@@ -10,9 +11,9 @@ export const useKeycloak = () => {
     logout,
     refresh,
     ready = false,
-    tokens = {},
+    tokens,
     loadUserInfo,
-  } = useContext(KeycloakContext);
+  } = useContext<KeycloakInfo>(KeycloakContext);
 
   const hasRealmRole = useCallback(
     (role: string) => {

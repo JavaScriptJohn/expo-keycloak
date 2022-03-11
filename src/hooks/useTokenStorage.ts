@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { tokenStorage } from './storage'
-import { TokenType, initialStorage } from './storage/tokenStorage'
+import { tokenStorage } from '../storage'
+import { TokenType, initialStorage } from '../storage/tokenStorage'
 
-const useTokenStorage = () => {
+export const useTokenStorage = () => {
   const [state, setState] = useState({
     hydrated: true,
     tokens: initialStorage,
@@ -37,5 +37,3 @@ const useTokenStorage = () => {
     getTokens,
   }
 }
-
-export default useTokenStorage
