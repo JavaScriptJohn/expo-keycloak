@@ -12,14 +12,11 @@ export type KeycloakContextValue = {
     loadUserInfo: () => Promise<Record<string, any>>
 }
 
-export type KeycloakConfiguration  =  Partial<AuthRequestConfig> & {
-    usePKCE?: boolean;
-    clientId: string;
+export type KeycloakConfiguration = AuthRequestConfig & {
     disableAutoRefresh?: boolean;
     nativeRedirectPath?: string;
     realm: string;
     refreshTimeBuffer?: number;
-    scheme?: string;
     tokenStorageKey?: string;
     url: string;
 }
