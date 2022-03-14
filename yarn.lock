@@ -2071,11 +2071,6 @@ expo-modules-core@0.6.4:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo-network@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/expo-network/-/expo-network-4.1.1.tgz#08b1d0d8934197f2978e33c2ae8527811532d8ce"
-  integrity sha512-afqi/s1Abwry6dMgMUOtj1jDV9Hm1DBqmOoZyQpXcL+uzdlqUHvGyCxQ0sNwrMDNtPKP8CGME2XLMqql2DExEw==
-
 expo-random@~12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-12.1.1.tgz#75f6eec8d4b9026a27eb90ed4b60d56dab414106"
