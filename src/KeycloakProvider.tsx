@@ -1,8 +1,9 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {KeycloakConfiguration, KeycloakContextValue} from './types';
 import {KeycloakContext} from './KeycloakContext';
-import { configureOfflineAccess, configureOnlineAccess } from './utils/keycloak-access';
 import {KC_INITIAL_VALUE} from "./const";
+import {configureOfflineAccess} from "./utils/offline-access";
+import {configureOnlineAccess} from "./utils/online-access";
 import {useNetInfo} from '@react-native-community/netinfo';
 
 export const KeycloakProvider: FC<KeycloakConfiguration> = ({
@@ -14,19 +15,22 @@ export const KeycloakProvider: FC<KeycloakConfiguration> = ({
     const netInfo = useNetInfo();
     const [keycloakContextValue, setKeycloakContextValue] = useState<KeycloakContextValue>(KC_INITIAL_VALUE);
 
+
     useEffect(() => {
 
         const asyncFunction = async () => {
             if (netInfo.isInternetReachable) {
-                setKeycloakContextValue(await configureOnlineAccess(refreshHandler))
+                await configureOnlineAccess(refreshHandler, props, setKeycloakContextValue);
             } else {
-                setKeycloakContextValue(await configureOfflineAccess())
+                await configureOfflineAccess(setKeycloakContextValue);
             }
         }
 
-        try {
-            asyncFunction()
-        } finally {
+        asyncFunction().catch(() => {
+            clearTimeout(refreshHandler.current)
+        })
+
+        return () => {
             clearTimeout(refreshHandler.current)
         }
     }, [
@@ -43,7 +47,9 @@ export const KeycloakProvider: FC<KeycloakConfiguration> = ({
 
     return (
         <KeycloakContext.Provider
-            value={keycloakContextValue}
+            value={{
+                ...keycloakContextValue
+            }}
         >
             {props.children}
         </KeycloakContext.Provider>
