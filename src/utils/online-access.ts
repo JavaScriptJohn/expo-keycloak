@@ -15,7 +15,7 @@ import {
     exchangeCodeAsync,
 } from "expo-auth-session";
 import { MutableRefObject } from "react";
-import {NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER} from "../const";
+import {KC_INITIAL_VALUE, NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER} from "../const";
 import {Platform} from "react-native";
 import { getRealmURL } from "../getRealmURL";
 import {TokenType} from "../storage/tokenStorage";
@@ -72,7 +72,8 @@ export const configureOnlineAccess = async (
                 await updateTimer();
             }
 
-            setKeycloakContextValue((prev: KeycloakContextValue) => ({...prev, isLoggedIn: true}))
+            setKeycloakContextValue((prev: KeycloakContextValue) =>
+                ({ ...prev, ready: true, isLoggedIn: true, tokens }));
 
             return response
         } catch(e) {
@@ -117,7 +118,8 @@ export const configureOnlineAccess = async (
 
             await tokenStorage.reset();
 
-            setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, ready: true, isLoggedIn: false }))
+            setKeycloakContextValue((prev: KeycloakContextValue) =>
+                ({ ...KC_INITIAL_VALUE, ready: true }))
         } catch(e) {
             clearTimeout(refreshHandler.current);
             throw e;
@@ -145,7 +147,8 @@ export const configureOnlineAccess = async (
                 await updateTimer(response as TokenType);
             }
 
-            setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, ready: true, isLoggedIn: true }));
+            setKeycloakContextValue((prev: KeycloakContextValue) =>
+                ({ ...prev, ready: true, isLoggedIn: true, tokens }));
 
             return response;
         } catch (e) {
