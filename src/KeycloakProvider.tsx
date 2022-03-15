@@ -7,17 +7,14 @@ import {configureOnlineAccess} from "./utils/online-access";
 import {useNetInfo} from '@react-native-community/netinfo';
 
 export const KeycloakProvider: FC<KeycloakConfiguration> = ({
-    usePKCE = false,
-    scopes = ['openid'],
+    children,
     ...props
 }) => {
     const refreshHandler = useRef<number>(0)
     const netInfo = useNetInfo();
     const [keycloakContextValue, setKeycloakContextValue] = useState<KeycloakContextValue>(KC_INITIAL_VALUE);
 
-
     useEffect(() => {
-
         const asyncFunction = async () => {
             if (netInfo.isInternetReachable) {
                 await configureOnlineAccess(refreshHandler, props, setKeycloakContextValue);
@@ -36,7 +33,7 @@ export const KeycloakProvider: FC<KeycloakConfiguration> = ({
     }, [
         netInfo.isInternetReachable,
         props.url,
-        usePKCE,
+        props.usePKCE,
         props.clientId,
         props.disableAutoRefresh,
         props.nativeRedirectPath,
@@ -51,7 +48,7 @@ export const KeycloakProvider: FC<KeycloakConfiguration> = ({
                 ...keycloakContextValue
             }}
         >
-            {props.children}
+            {children}
         </KeycloakContext.Provider>
     );
 };

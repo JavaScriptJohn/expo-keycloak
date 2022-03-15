@@ -1,6 +1,5 @@
 import {tokenStorage} from "../storage";
 import {KeycloakConfiguration, KeycloakContextValue} from "../types";
-import {isTokenExpired} from './jwt-utils';
 import {
     AuthRequest,
     AuthRequestConfig,
@@ -9,33 +8,53 @@ import {
     loadAsync,
     revokeAsync,
     refreshAsync,
-    fetchUserInfoAsync, fetchDiscoveryAsync, makeRedirectUri, TokenResponse
+    fetchUserInfoAsync,
+    fetchDiscoveryAsync,
+    makeRedirectUri,
+    TokenResponse,
+    startAsync,
+    exchangeCodeAsync,
+    TokenRequestConfig
 } from "expo-auth-session";
 import { MutableRefObject } from "react";
 import {NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER} from "../const";
 import {Platform} from "react-native";
+import { getRealmURL } from "../getRealmURL";
+import {AccessTokenRequestConfig} from "expo-auth-session/src/TokenRequest.types";
+import {TokenType} from "../storage/tokenStorage";
 
 export const configureOnlineAccess = async (
     refreshHandler: MutableRefObject<number>,
     config: KeycloakConfiguration,
     setKeycloakContextValue: (value: KeycloakContextValue | ((prev: KeycloakContextValue) => KeycloakContextValue)) => void
 ): Promise<void> => {
-    const discovery = await fetchDiscoveryAsync(config.url);
+    const discovery = await fetchDiscoveryAsync(getRealmURL(config));
     const useProxy = Platform.select({ web: false, native: !config.scheme });
 
     config.redirectUri = makeRedirectUri({
         native: `${config.scheme ?? 'exp'}://${
             config.nativeRedirectPath ?? NATIVE_REDIRECT_PATH
         }`,
-        useProxy,
+        useProxy: false,
     });
 
-    let updateTimer: () => Promise<void>;
+    let updateTimer: (tokens?: TokenType) => Promise<void>;
 
-    const isLoggedIn: () => Promise<boolean> = async (): Promise<boolean> => {
-        const tokens = await tokenStorage.get();
-
-        return TokenResponse.isTokenFresh(tokens) || (!!tokens.refreshToken && !isTokenExpired(tokens.refreshToken));
+    const exchangeCode: (
+        request: AuthRequest,
+        response: any
+    ) => Promise<TokenResponse> = (
+        request: AuthRequest,
+        response: any
+    ): Promise<TokenResponse> => {
+        return exchangeCodeAsync(
+            {
+                ...(config as AuthRequestConfig),
+                ...(config.usePKCE ? {code_verifier: request.codeVerifier} : {}),
+                code: (response as any).params.code
+            },
+            discovery,
+        )
     }
 
     const login: (options?: AuthRequestPromptOptions) => Promise<AuthSessionResult> = async (options?: AuthRequestPromptOptions): Promise<AuthSessionResult> => {
@@ -43,11 +62,15 @@ export const configureOnlineAccess = async (
 
         const request: AuthRequest = await loadAsync(config as AuthRequestConfig, discovery);
 
-        const response = await request.promptAsync(discovery, options);
+        const response: AuthSessionResult = await request.promptAsync(discovery, { useProxy });
 
-        console.log(response)
+        const tokens = await exchangeCode(request, response) as TokenType;
 
-        updateTimer();
+        await tokenStorage.set(tokens);
+
+        await updateTimer(tokens);
+
+        setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, isLoggedIn: true }))
 
         return response
     }
@@ -133,10 +156,12 @@ export const configureOnlineAccess = async (
         }
     }
 
-    updateTimer = async () => {
+    updateTimer = async (tokens?: TokenType) => {
         clearTimeout(refreshHandler.current);
 
-        const tokens = await tokenStorage.get();
+        if (!tokens) {
+            tokens = await tokenStorage.get();
+        }
 
         refreshHandler.current = setTimeout(
             refresh,
