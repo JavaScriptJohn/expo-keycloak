@@ -12,16 +12,15 @@ import {
     fetchDiscoveryAsync,
     makeRedirectUri,
     TokenResponse,
-    startAsync,
     exchangeCodeAsync,
-    TokenRequestConfig
 } from "expo-auth-session";
 import { MutableRefObject } from "react";
 import {NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER} from "../const";
 import {Platform} from "react-native";
 import { getRealmURL } from "../getRealmURL";
-import {AccessTokenRequestConfig} from "expo-auth-session/src/TokenRequest.types";
 import {TokenType} from "../storage/tokenStorage";
+import {isTokenExpired} from "./jwt-utils";
+import jwtDecode from "./jwt-decode";
 
 export const configureOnlineAccess = async (
     refreshHandler: MutableRefObject<number>,
@@ -58,21 +57,28 @@ export const configureOnlineAccess = async (
     }
 
     const login: (options?: AuthRequestPromptOptions) => Promise<AuthSessionResult> = async (options?: AuthRequestPromptOptions): Promise<AuthSessionResult> => {
-        clearTimeout(refreshHandler!.current);
+        try {
+            clearTimeout(refreshHandler!.current);
 
-        const request: AuthRequest = await loadAsync(config as AuthRequestConfig, discovery);
+            const request: AuthRequest = await loadAsync(config as AuthRequestConfig, discovery);
 
-        const response: AuthSessionResult = await request.promptAsync(discovery, { useProxy });
+            const response: AuthSessionResult = await request.promptAsync(discovery, {useProxy});
 
-        const tokens = await exchangeCode(request, response) as TokenType;
+            const tokens = await exchangeCode(request, response) as TokenType;
 
-        await tokenStorage.set(tokens);
+            await tokenStorage.set(tokens);
 
-        await updateTimer(tokens);
+            if (!config.disableAutoRefresh) {
+                await updateTimer();
+            }
 
-        setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, isLoggedIn: true }))
+            setKeycloakContextValue((prev: KeycloakContextValue) => ({...prev, isLoggedIn: true}))
 
-        return response
+            return response
+        } catch(e) {
+            clearTimeout(refreshHandler.current);
+            throw e;
+        }
     }
 
 
@@ -81,7 +87,6 @@ export const configureOnlineAccess = async (
             const tokens = await tokenStorage.get();
 
             if (!tokens.accessToken) {
-                clearTimeout(refreshHandler.current);
                 throw new Error('Not logged in.');
             }
 
@@ -111,6 +116,8 @@ export const configureOnlineAccess = async (
             }
 
             await tokenStorage.reset();
+
+            setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, ready: true, isLoggedIn: false }))
         } catch(e) {
             clearTimeout(refreshHandler.current);
             throw e;
@@ -119,10 +126,12 @@ export const configureOnlineAccess = async (
 
     const refresh: () => Promise<TokenResponse> = async () => {
         try {
+            clearTimeout(refreshHandler.current)
+
             const tokens = await tokenStorage.get();
 
             if (!tokens.refreshToken) {
-                throw Error('Not logged in');
+                throw new Error('Not logged in');
             }
 
             const response = await refreshAsync(
@@ -130,15 +139,19 @@ export const configureOnlineAccess = async (
                 discovery!,
             );
 
+            await tokenStorage.set(response as TokenType);
+
             if (!config.disableAutoRefresh) {
-                updateTimer();
+                await updateTimer(response as TokenType);
             }
 
+            setKeycloakContextValue((prev: KeycloakContextValue) => ({ ...prev, ready: true, isLoggedIn: true }));
+
             return response;
-        } catch (refreshError) {
+        } catch (e) {
             //Can't refresh because the session is gone in keycloak
             await logout();
-            throw refreshError;
+            throw e;
         }
     }
 
@@ -150,9 +163,9 @@ export const configureOnlineAccess = async (
                 { accessToken },
                 { userInfoEndpoint: discovery!.userInfoEndpoint },
             );
-        } catch (error) {
+        } catch (e) {
             await logout()
-            throw error
+            throw e
         }
     }
 
@@ -171,12 +184,22 @@ export const configureOnlineAccess = async (
         ) as any;
     }
 
+    const tokens = await tokenStorage.get();
+
+    let ready = true;
+
+    if (tokens.refreshToken && !isTokenExpired(jwtDecode(tokens.refreshToken))) {
+        ready = false;
+        refresh();
+    }
+
     setKeycloakContextValue({
         isLoggedIn: false,
         login,
         logout,
         refresh,
-        ready: true,
+        ready,
+        tokens,
         loadUserInfo,
     });
 }
