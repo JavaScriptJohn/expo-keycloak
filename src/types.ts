@@ -1,27 +1,26 @@
 import {AuthRequestConfig, AuthRequestPromptOptions} from "expo-auth-session/src/AuthRequest.types";
 import {TokenType} from "./storage/tokenStorage";
-import {AuthSessionResult} from 'expo-auth-session';
+import {AuthSessionResult, TokenResponse} from 'expo-auth-session';
 
 export type KeycloakContextValue = {
     isLoggedIn: boolean;
     login: (options?: AuthRequestPromptOptions) => Promise<AuthSessionResult>;
     logout: () => Promise<void>;
-    refresh: () => Promise<void>;
+    refresh: () => Promise<TokenResponse>;
     ready: boolean;
-    tokens: TokenType;
+    tokens?: TokenType;
     loadUserInfo: () => Promise<Record<string, any>>
 }
 
-export type KeycloakConfiguration  =  Partial<AuthRequestConfig> & {
-    usePKCE?: boolean;
-    clientId: string;
+export type KeycloakConfiguration = Partial<AuthRequestConfig> & {
     disableAutoRefresh?: boolean;
     nativeRedirectPath?: string;
     realm: string;
     refreshTimeBuffer?: number;
-    scheme?: string;
     tokenStorageKey?: string;
     url: string;
+    scheme: string;
+    clientId: string;
 }
 
 export type KeycloakResourceAccess = {
@@ -53,7 +52,7 @@ export type KeycloakHook = {
     isLoggedIn: boolean,
     login: (options?: AuthRequestPromptOptions) => Promise<AuthSessionResult>,
     logout: () => Promise<void>,
-    refresh: () => Promise<void>,
+    refresh: () => Promise<TokenResponse>,
     ready: boolean,
     accessToken: string,
     accessTokenParsed: AccessTokenParsed,
