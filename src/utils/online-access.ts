@@ -119,7 +119,7 @@ export const configureOnlineAccess = async (
             await tokenStorage.reset();
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
-                ({ ...KC_INITIAL_VALUE, ready: true }))
+                ({ ...prev, ready: true, isLoggedIn: false, tokens: KC_INITIAL_VALUE.tokens }))
         } catch(e) {
             clearTimeout(refreshHandler.current);
             throw e;
