@@ -9,8 +9,8 @@ const throwLoginError = () => {
     throw new KeycloakOfflineError('Can\'t login when offline');
 }
 
-const throwLogoutError = () => {
-    throw new KeycloakOfflineError('Can\'t logout when offline');
+const logout: () => Promise<void> = async (): Promise<void> => {
+    await tokenStorage.reset();
 }
 
 const throwRefreshError = () => {
@@ -34,7 +34,7 @@ export const configureOfflineAccess = async (
     setKeycloakContextValue({
         isLoggedIn,
         login: throwLoginError,
-        logout: throwLogoutError,
+        logout,
         refresh: throwRefreshError,
         ready: true,
         tokens,
