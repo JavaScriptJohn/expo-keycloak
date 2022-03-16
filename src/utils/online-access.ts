@@ -148,7 +148,7 @@ export const configureOnlineAccess = async (
             }
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
-                ({ ...prev, ready: true, isLoggedIn: true, tokens }));
+                ({ ...prev, ready: true, isLoggedIn: true, tokens: response as TokenType }));
 
             return response;
         } catch (e) {
