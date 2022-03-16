@@ -189,20 +189,17 @@ export const configureOnlineAccess = async (
 
     const tokens = await tokenStorage.get();
 
-    let ready = true;
-
     if (tokens.refreshToken && !isTokenExpired(jwtDecode(tokens.refreshToken))) {
-        ready = false;
         refresh();
+    } else {
+        setKeycloakContextValue({
+            isLoggedIn: false,
+            login,
+            logout,
+            refresh,
+            ready: true,
+            tokens,
+            loadUserInfo,
+        });
     }
-
-    setKeycloakContextValue({
-        isLoggedIn: false,
-        login,
-        logout,
-        refresh,
-        ready,
-        tokens,
-        loadUserInfo,
-    });
 }
