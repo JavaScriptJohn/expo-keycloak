@@ -1,11 +1,12 @@
 {
-  "name": "expo-auth-session-keycloak",
-  "version": "1.0.0",
+  "name": "expo-auth-session-keycloak-teste",
+  "version": "1.0.1",
   "description": "Keycloak authentication for react-native apps using Expo.",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "yarn build"
   },
   "keywords": [
     "auth",
