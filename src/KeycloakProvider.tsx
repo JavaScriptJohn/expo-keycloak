@@ -16,10 +16,10 @@ export const KeycloakProvider: FC<KeycloakConfiguration> = ({
 
     useEffect(() => {
         const asyncFunction = async () => {
+            await configureOfflineAccess(setKeycloakContextValue);
+
             if (netInfo.isInternetReachable) {
                 await configureOnlineAccess(refreshHandler, props, setKeycloakContextValue);
-            } else {
-                await configureOfflineAccess(setKeycloakContextValue);
             }
         }
 

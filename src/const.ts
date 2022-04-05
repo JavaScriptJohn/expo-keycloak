@@ -8,6 +8,7 @@ export const KC_INITIAL_VALUE: KeycloakContextValue = {
   refresh: () => console.error('Not Logged In.'),
   tokens: null,
 } as any
+
 export const NATIVE_REDIRECT_PATH = 'auth/redirect'
 export const TOKEN_STORAGE_KEY = '$KEYCLOAK_AUTH_TOKEN$'
 export const REFRESH_TIME_BUFFER = 10

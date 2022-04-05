@@ -1,3 +1,7 @@
+# About
+This library is based on [JavaScriptJohn/expo-keycloak](https://github.com/JavaScriptJohn/expo-keycloak) written in
+Typescript. It fixes some token refresh bugs and implements offline access.
+
 # Keycloak for Expo
 
 > Keycloak authentication for react-native apps using Expo.
@@ -93,3 +97,10 @@ export const Auth = () => {
 yarn build
 npm publish
 ```
+
+***
+
+# Contribute
+Until now, except for the work already done in the repos this one was forked from, this has been a solo dev project.
+There's no "guide" for contributing and all help is welcome. Feel free to make a pull request, open as many issues as
+you need (I'll do my best to answer) and even contact me at [pctmayer@gmail.com](mailto:pctmayer@gmail.com)

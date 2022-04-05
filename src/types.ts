@@ -21,6 +21,7 @@ export type KeycloakConfiguration = Partial<AuthRequestConfig> & {
     url: string;
     scheme: string;
     clientId: string;
+    useProxy?: boolean;
 }
 
 export type KeycloakResourceAccess = {
