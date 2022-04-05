@@ -30,7 +30,7 @@ expo install expo-random expo-auth-session
 #### 3. Other peer deps and the star of the evening `expo-keycloak` itself
 
 ```
-yarn add @react-native-async-storage/async-storage expo-keycloak@https://github.com/PlinioMayer/expo-keycloak.git
+yarn add @react-native-async-storage/async-storage expo-auth-session-keycloak
 ```
 
 ## Usage
@@ -40,8 +40,7 @@ yarn add @react-native-async-storage/async-storage expo-keycloak@https://github.
 import {
   KeycloakConfiguration,
   KeycloakProvider,
-  useKeycloak,
-} from 'expo-keycloak';
+} from 'expo-auth-session-keycloak';
 import AppConfig from './app.json'; // This is Expo's app json where your scheme should be defined
 
 export default () => {
@@ -62,6 +61,7 @@ export default () => {
 
 ```typescript jsx
 // Auth.tsx
+import { useKeycloak } from 'expo-auth-session-keycloak'
 import { ActivityIndicator, Button, Text } from 'react-native';
 
 export const Auth = () => {
