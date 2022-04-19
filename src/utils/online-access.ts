@@ -65,10 +65,8 @@ export const configureOnlineAccess = async (
             const tokens = await exchangeCode(request, response) as TokenType;
 
             await tokenStorage.set(tokens);
-
-            if (!config.disableAutoRefresh) {
-                await updateTimer();
-            }
+            
+            await updateTimer();
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
                 ({ ...prev, ready: true, isLoggedIn: true, tokens }));
@@ -141,9 +139,7 @@ export const configureOnlineAccess = async (
 
             await tokenStorage.set(response as TokenType);
 
-            if (!config.disableAutoRefresh) {
-                await updateTimer(response as TokenType);
-            }
+            await updateTimer(response as TokenType);
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
                 ({ ...prev, ready: true, isLoggedIn: true, tokens: response as TokenType }));
@@ -171,6 +167,10 @@ export const configureOnlineAccess = async (
     }
 
     updateTimer = async (tokens?: TokenType) => {
+        if (config.disableAutoRefresh) {
+            return;
+        }
+        
         clearTimeout(refreshHandler.current);
 
         if (!tokens) {
@@ -186,18 +186,23 @@ export const configureOnlineAccess = async (
     }
 
     const tokens = await tokenStorage.get();
+    
+    setKeycloakContextValue((prev: KeycloakContextValue) => ({
+        ...prev,
+        login,
+        logout,
+        refresh,
+        loadUserInfo,
+    }));
 
     if (tokens.refreshToken && !isTokenExpired(jwtDecode(tokens.refreshToken))) {
-        refresh();
+        await refresh();
     } else {
-        setKeycloakContextValue({
+        setKeycloakContextValue((prev: KeycloakContextValue) => ({
+            ...prev,
             isLoggedIn: false,
-            login,
-            logout,
-            refresh,
             ready: true,
             tokens,
-            loadUserInfo,
-        });
+        }));
     }
 }
