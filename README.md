@@ -1,4 +1,5 @@
-# Keycloak for Expo
+# DEPRECATED
+> Please consider using https://github.com/PlinioMayer/expo-auth-session-keycloak instead
 
 > Keycloak authentication for react-native apps using Expo.
 
