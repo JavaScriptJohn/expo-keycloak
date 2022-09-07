@@ -1,6 +1,6 @@
 {
   "name": "expo-auth-session-keycloak",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Keycloak authentication for react-native apps using Expo.",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "openid",
     "react native"
   ],
-  "author": "Plinio Mayer <pctmayer@gmail.com>",
+  "author": "John Szafraniec <jpszafraniec@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@react-native-async-storage/async-storage": "~1.17.3",
