@@ -1,6 +1,6 @@
 {
   "name": "expo-auth-session-keycloak",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Keycloak authentication for react-native apps using Expo.",
   "main": "dist/index.js",
   "scripts": {
