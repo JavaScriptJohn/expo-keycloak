@@ -1,3 +1,4 @@
-export * from './KeycloakProvider'
-export * from './useKeycloak'
-export * from './const'
+export * from './hooks';
+export * from './const';
+export * from './KeycloakProvider';
+export * from './types';

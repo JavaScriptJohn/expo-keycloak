@@ -7,6 +7,9 @@ This package enables you to login against a keycloak instance from your Expo app
 
 This package also automatically handles refreshing of the token. (You can disable this behavior in `KeycloakProvider` props)
 
+## (known) Supported Keycloak versions:
+- 16.1.1
+
 ## Install
 
 #### 1. Expo & React peer deps
@@ -24,7 +27,7 @@ expo install expo-random expo-auth-session
 #### 3. Other peer deps and the star of the evening `expo-keycloak` itself
 
 ```
-yarn add @react-native-async-storage/async-storage expo-keycloak
+yarn add @react-native-async-storage/async-storage expo-auth-session-keycloak
 ```
 
 ## Usage
@@ -32,14 +35,13 @@ yarn add @react-native-async-storage/async-storage expo-keycloak
 ```typescript jsx
 // App.tsx
 import {
-  IKeycloakConfiguration,
+  KeycloakConfiguration,
   KeycloakProvider,
-  useKeycloak,
-} from 'expo-keycloak';
+} from 'expo-auth-session-keycloak';
 import AppConfig from './app.json'; // This is Expo's app json where your scheme should be defined
 
 export default () => {
-  const keycloakConfiguration: IKeycloakConfiguration = {
+  const keycloakConfiguration: KeycloakConfiguration = {
     clientId: 'AGENT_007',
     realm: 'REALM_OF_HER_MAJESTY',
     url: 'http://WHERE_THE_KC_RESIDES', // This is usually an url ending with /auth
@@ -56,6 +58,7 @@ export default () => {
 
 ```typescript jsx
 // Auth.tsx
+import { useKeycloak } from 'expo-auth-session-keycloak'
 import { ActivityIndicator, Button, Text } from 'react-native';
 
 export const Auth = () => {
@@ -91,3 +94,10 @@ export const Auth = () => {
 yarn build
 npm publish
 ```
+
+***
+
+# Contribute
+Until now, except for the work already done in the repos this one was forked from, this has been a solo dev project.
+There's no "guide" for contributing and all help is welcome. Feel free to make a pull request, open as many issues as
+you need (I'll do my best to answer) and even contact me at [pctmayer@gmail.com](mailto:pctmayer@gmail.com)
