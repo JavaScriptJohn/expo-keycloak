@@ -3648,9 +3648,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-auth-session-keycloak@workspace:.":
+"expo-auth-keycloak@workspace:.":
   version: 0.0.0-use.local
-  resolution: "expo-auth-session-keycloak@workspace:."
+  resolution: "expo-auth-keycloak@workspace:."
   dependencies:
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/netinfo": "npm:11.4.1"
