@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState, PropsWithChildren} from 'react';
 import {KeycloakConfiguration, KeycloakContextValue} from './types';
 import {KeycloakContext} from './KeycloakContext';
 import {KC_INITIAL_VALUE} from "./const";
@@ -6,7 +6,7 @@ import {configureOfflineAccess} from "./utils/offline-access";
 import {configureOnlineAccess} from "./utils/online-access";
 import {useNetInfo} from '@react-native-community/netinfo';
 
-export const KeycloakProvider: FC<KeycloakConfiguration> = ({
+export const KeycloakProvider: FC<PropsWithChildren<KeycloakConfiguration>> = ({
     children,
     ...props
 }) => {

@@ -1,25 +1,24 @@
-import {tokenStorage} from "../storage";
-import {KeycloakConfiguration, KeycloakContextValue} from "../types";
 import {
     AuthRequest,
     AuthRequestConfig,
-    AuthSessionResult,
     AuthRequestPromptOptions,
-    loadAsync,
-    revokeAsync,
-    refreshAsync,
-    fetchUserInfoAsync,
-    fetchDiscoveryAsync,
-    makeRedirectUri,
-    TokenResponse,
+    AuthSessionResult,
     exchangeCodeAsync,
+    fetchDiscoveryAsync,
+    fetchUserInfoAsync,
+    loadAsync,
+    makeRedirectUri,
+    refreshAsync,
+    revokeAsync,
+    TokenResponse,
 } from "expo-auth-session";
 import { MutableRefObject } from "react";
-import {KC_INITIAL_VALUE, NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER} from "../const";
+import { KC_INITIAL_VALUE, NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER } from "../const";
 import { getRealmURL } from "../getRealmURL";
-import {TokenType} from "../storage/tokenStorage";
-import {isTokenExpired} from "./jwt-utils";
+import tokenStorage, { TokenType } from "../storage/tokenStorage";
+import { KeycloakConfiguration, KeycloakContextValue } from "../types";
 import jwtDecode from "./jwt-decode";
+import { isTokenExpired } from "./jwt-utils";
 
 export const configureOnlineAccess = async (
     refreshHandler: MutableRefObject<number>,
@@ -29,10 +28,8 @@ export const configureOnlineAccess = async (
     const discovery = await fetchDiscoveryAsync(getRealmURL(config));
 
     config.redirectUri = makeRedirectUri({
-        native: `${config.scheme ?? 'exp'}://${
-            config.nativeRedirectPath ?? NATIVE_REDIRECT_PATH
-        }`,
-        useProxy: config.useProxy
+        native: `${config.scheme ?? 'exp'}://${config.nativeRedirectPath ?? NATIVE_REDIRECT_PATH
+            }`
     });
 
     let updateTimer: (tokens?: TokenType) => Promise<void>;
@@ -44,15 +41,15 @@ export const configureOnlineAccess = async (
         request: AuthRequest,
         response: any
     ): Promise<TokenResponse> => {
-        return exchangeCodeAsync(
-            {
-                ...(config as AuthRequestConfig),
-                ...(config.usePKCE ? {code_verifier: request.codeVerifier} : {}),
-                code: (response as any).params.code
-            },
-            discovery,
-        )
-    }
+            return exchangeCodeAsync(
+                {
+                    ...(config as AuthRequestConfig),
+                    ...(config.usePKCE ? { code_verifier: request.codeVerifier } : {}),
+                    code: (response as any).params.code
+                },
+                discovery,
+            )
+        }
 
     const login: (options?: AuthRequestPromptOptions) => Promise<AuthSessionResult> = async (options?: AuthRequestPromptOptions): Promise<AuthSessionResult> => {
         try {
@@ -60,19 +57,19 @@ export const configureOnlineAccess = async (
 
             const request: AuthRequest = await loadAsync(config as AuthRequestConfig, discovery);
 
-            const response: AuthSessionResult = await request.promptAsync(discovery, {useProxy: config.useProxy, ...options});
+            const response: AuthSessionResult = await request.promptAsync(discovery, options);
 
             const tokens = await exchangeCode(request, response) as TokenType;
 
             await tokenStorage.set(tokens);
-            
+
             await updateTimer();
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
                 ({ ...prev, ready: true, isLoggedIn: true, tokens }));
 
             return response
-        } catch(e) {
+        } catch (e) {
             clearTimeout(refreshHandler.current);
             throw e;
         }
@@ -92,7 +89,7 @@ export const configureOnlineAccess = async (
                     token: tokens.accessToken,
                     ...config,
                 },
-                {revocationEndpoint: discovery?.revocationEndpoint},
+                { revocationEndpoint: discovery?.revocationEndpoint },
             );
 
             if (tokens.refreshToken) {
@@ -116,7 +113,7 @@ export const configureOnlineAccess = async (
 
             setKeycloakContextValue((prev: KeycloakContextValue) =>
                 ({ ...prev, ready: true, isLoggedIn: false, tokens: KC_INITIAL_VALUE.tokens }))
-        } catch(e) {
+        } catch (e) {
             clearTimeout(refreshHandler.current);
             throw e;
         }
@@ -170,7 +167,7 @@ export const configureOnlineAccess = async (
         if (config.disableAutoRefresh) {
             return;
         }
-        
+
         clearTimeout(refreshHandler.current);
 
         if (!tokens) {

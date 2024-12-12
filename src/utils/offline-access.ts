@@ -1,10 +1,9 @@
-import {KeycloakContextValue} from "../types";
-import {TokenType} from "../storage/tokenStorage";
-import {tokenStorage} from "../storage";
-import {isTokenExpired} from "./jwt-utils";
-import {KC_INITIAL_VALUE} from "../const";
+import { KeycloakContextValue } from "../types";
+import tokenStorage, { TokenType } from "../storage/tokenStorage";
+import { isTokenExpired } from "./jwt-utils";
+import { KC_INITIAL_VALUE } from "../const";
 
-export class KeycloakOfflineError extends Error {}
+export class KeycloakOfflineError extends Error { }
 
 const throwLoginError = () => {
     throw new KeycloakOfflineError('Can\'t login when offline');
