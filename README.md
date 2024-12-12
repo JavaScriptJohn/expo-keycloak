@@ -1,5 +1,8 @@
-# DEPRECATED
-> Please consider using https://github.com/PlinioMayer/expo-auth-session-keycloak instead
+# About
+This library is based on [JavaScriptJohn/expo-keycloak](https://github.com/JavaScriptJohn/expo-keycloak) written in
+Typescript. It fixes some token refresh bugs and implements offline access.
+
+# Keycloak for Expo
 
 > Keycloak authentication for react-native apps using Expo.
 

@@ -22,25 +22,25 @@
   "devDependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "11.4.1",
+    "@types/invariant": "^2.2.37",
     "@types/react": "^18.3.16",
     "@types/react-native": "~0.73.0",
     "expo-auth-session": "~6.0.1",
-    "expo-random": "~14.0.1",
     "prettier": "^3.4.2",
     "react": "18.3.1",
     "typescript": "^5.7.2"
   },
   "dependencies": {
     "expo": "^52.0.18",
+    "expo-auth-session": "^6.0.1",
+    "expo-crypto": "^14.0.1",
     "react-native": "0.76.5"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "~1.17.3",
-    "@react-native-community/netinfo": "9.3.0",
-    "expo": "^46.0.0",
-    "expo-auth-session": "~3.7.1",
-    "expo-random": "~12.3.0",
-    "react": "18.0.0"
+    "@react-native-async-storage/async-storage": ">=1.23.0",
+    "@react-native-community/netinfo": ">=11.0.0",
+    "expo-random": ">=14.0.0",
+    "react": ">=18.0.0"
   },
   "packageManager": "yarn@4.5.3"
 }

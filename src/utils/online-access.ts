@@ -1,24 +1,24 @@
+import { KeycloakConfiguration, KeycloakContextValue } from "../types";
 import {
     AuthRequest,
     AuthRequestConfig,
-    AuthRequestPromptOptions,
     AuthSessionResult,
-    exchangeCodeAsync,
-    fetchDiscoveryAsync,
-    fetchUserInfoAsync,
+    AuthRequestPromptOptions,
     loadAsync,
-    makeRedirectUri,
-    refreshAsync,
     revokeAsync,
+    refreshAsync,
+    fetchUserInfoAsync,
+    fetchDiscoveryAsync,
+    makeRedirectUri,
     TokenResponse,
+    exchangeCodeAsync,
 } from "expo-auth-session";
 import { MutableRefObject } from "react";
 import { KC_INITIAL_VALUE, NATIVE_REDIRECT_PATH, REFRESH_TIME_BUFFER } from "../const";
 import { getRealmURL } from "../getRealmURL";
 import tokenStorage, { TokenType } from "../storage/tokenStorage";
-import { KeycloakConfiguration, KeycloakContextValue } from "../types";
-import jwtDecode from "./jwt-decode";
 import { isTokenExpired } from "./jwt-utils";
+import jwtDecode from "./jwt-decode";
 
 export const configureOnlineAccess = async (
     refreshHandler: MutableRefObject<number>,
